@@ -3,4 +3,5 @@
 ## Objectives
 - [x] Create repository
 - [x] Clone it
-- [ ] First commit from CLI
+- [x] First commit from CLI
+- [ ] First pull request created
