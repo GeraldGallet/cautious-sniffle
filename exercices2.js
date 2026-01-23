@@ -12,6 +12,26 @@ function sumWithReduce(a) {
   return a.reduce((acc, value) => acc + value, 0);
 }
 
+[3, 823, 765].reduce((acc, x) => acc + x, 0);
+// acc | x
+// 0    3  => 0 + 3 = 3
+// 3    823 => 3 + 823 = 826
+// 826  765 => 826 + 725 = 1551
+// 1551 / 3
+
+const myObj = { firstName: "Gérald", lastName: "Gallet", age: 30 };
+
+[("firstName", "lastName", "age")].reduce((acc, x) => {
+  //
+  //
+  //
+  //
+  return {
+    ...acc,
+    [x]: typeof myObj[x] === "number" ? myObj[x] + 10 : myObj[x],
+  };
+}, {});
+
 function getMaxValue(a) {
   if (a.length === 0) {
     return "empty array";
