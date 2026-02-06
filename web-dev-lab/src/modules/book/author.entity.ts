@@ -1,3 +1,4 @@
+import { BookEntity } from 'src/modules/book/book.entity';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 export type AuthorId = string & { __brand: 'Author' };

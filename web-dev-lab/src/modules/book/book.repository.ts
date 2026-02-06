@@ -6,9 +6,11 @@ import { BookEntity, BookId } from 'src/modules/book/book.entity';
 import {
   BookModel,
   CreateBookModel,
+  FilterBooksModel,
   UpdateBookModel,
 } from 'src/modules/book/book.model';
 import { ILike, In, Like, Repository } from 'typeorm';
+import { DataSource } from 'typeorm';
 import { v4 } from 'uuid';
 
 @Injectable()
@@ -18,13 +20,21 @@ export class BookRepository {
     private readonly bookRepository: Repository<BookEntity>,
     @InjectRepository(AuthorEntity)
     private readonly authorRepository: Repository<AuthorEntity>,
+    private readonly dataSource: DataSource,
   ) {}
 
-  private books: BookModel[] = [];
+  public async getBooks(
+    input: FilterBooksModel,
+  ): Promise<[BookModel[], number]> {
+    const sort = {
+      [input.sort?.property ?? 'title']: input.sort?.direction ?? 'ASC',
+    };
 
-  public async getBooks(): Promise<BookModel[]> {
-    const books = await this.bookRepository.find({
+    const books = await this.bookRepository.findAndCount({
+      skip: input.offset,
+      take: input.limit,
       relations: { author: true },
+      order: sort,
     });
 
     return books;
@@ -52,12 +62,11 @@ export class BookRepository {
   }
 
   public async createBook(input: CreateBookModel): Promise<BookModel> {
-    const newBook = {
-      ...input,
-      id: v4(),
-    };
-    this.books.push(newBook);
-    return newBook;
+    const result = await this.bookRepository.save(
+      this.bookRepository.create(input),
+    );
+
+    return result;
   }
 
   public async updateBookById(
@@ -70,19 +79,23 @@ export class BookRepository {
       return undefined;
     }
 
+    await this.bookRepository.update(id, input);
+
     const newBook = {
       ...oldBook,
       ...input,
     };
 
-    this.books = this.books.map((book) => {
-      return book.id === id ? newBook : book;
-    });
-
     return newBook;
   }
 
   public async deleteBookById(id: string) {
-    this.books = this.books.filter((book) => book.id !== id);
+    await this.bookRepository.delete(id);
+  }
+
+  public async deleteBooks(ids: string[]) {
+    await this.dataSource.transaction(async (manager) => {
+      await manager.delete(BookEntity, { id: In(ids) });
+    });
   }
 }

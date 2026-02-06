@@ -1,13 +1,14 @@
 import { Type } from 'class-transformer';
-import { IsInt, IsString, Max, Min } from 'class-validator';
-
-class CreateBookAuthorDto {
-  @IsString()
-  lastName: string;
-
-  @IsString()
-  firstName: string;
-}
+import {
+  IsArray,
+  IsInt,
+  IsNumber,
+  IsString,
+  IsUUID,
+  Max,
+  Min,
+} from 'class-validator';
+import { type AuthorId } from 'src/modules/book/author.entity';
 
 export class CreateBookDto {
   @IsString()
@@ -18,6 +19,23 @@ export class CreateBookDto {
   @Min(1500)
   yearPublished: number;
 
-  @Type(() => CreateBookAuthorDto)
-  author: CreateBookAuthorDto;
+  @IsUUID()
+  authorId: AuthorId;
+}
+
+export class GetBooksQueryDto {
+  @IsInt()
+  limit: number;
+
+  @IsInt()
+  offset: number;
+
+  @IsString()
+  sort?: string;
+}
+
+export class DeleteBooksDto {
+  @IsUUID(4, { each: true })
+  @IsArray()
+  ids: string[];
 }

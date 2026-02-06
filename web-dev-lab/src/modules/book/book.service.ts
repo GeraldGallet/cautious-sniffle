@@ -4,6 +4,7 @@ import { BookId } from 'src/modules/book/book.entity';
 import {
   BookModel,
   CreateBookModel,
+  FilterBooksModel,
   UpdateBookModel,
 } from 'src/modules/book/book.model';
 import { BookRepository } from 'src/modules/book/book.repository';
@@ -13,8 +14,10 @@ import { v4 } from 'uuid';
 export class BookService {
   constructor(private readonly bookRepository: BookRepository) {}
 
-  public async getBooks(): Promise<BookModel[]> {
-    return this.bookRepository.getBooks();
+  public async getBooks(
+    input: FilterBooksModel,
+  ): Promise<[BookModel[], number]> {
+    return this.bookRepository.getBooks(input);
   }
 
   public async getBookById(id: BookId): Promise<BookModel | null> {
@@ -34,5 +37,9 @@ export class BookService {
 
   public async deleteBookById(id: string) {
     return this.bookRepository.deleteBookById(id);
+  }
+
+  public deleteBooks(ids: string[]) {
+    return this.bookRepository.deleteBooks(ids);
   }
 }
