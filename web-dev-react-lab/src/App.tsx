@@ -3,7 +3,7 @@ import "./App.css";
 import { Hello } from "./Hello";
 
 function App() {
-  const [name, setName] = useState<string>("Gérard");
+  const [name, setName] = useState<string>("<default name>");
   const [newName, setNewName] = useState<string>("");
 
   const onValidate = () => {
