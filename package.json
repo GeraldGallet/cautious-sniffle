@@ -18,6 +18,8 @@
   },
   "homepage": "https://github.com/GeraldGallet/cautious-sniffle#readme",
   "dependencies": {
+    "@ant-design/icons": "^5.6.1",
+    "antd": "^6.3.0",
     "lodash": "^4.17.21"
   }
 }

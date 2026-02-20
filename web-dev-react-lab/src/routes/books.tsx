@@ -1,14 +1,5 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { BookList } from "../books/BookList";
+import { createFileRoute, Outlet } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/books")({
-  component: RouteComponent,
+  component: () => <Outlet />,
 });
-
-function RouteComponent() {
-  return (
-    <div>
-      <BookList />
-    </div>
-  );
-}

@@ -12,12 +12,12 @@ export function BookList() {
   }, []);
 
   return (
-    <>
+    <div style={{ width: "100%" }}>
       <h1>Book's list</h1>
       <CreateBookForm onCreate={onCreate} />
       {isLoading ? <h2>Loading ...</h2> : <h2>Loaded.</h2>}
       {!isLoading && (
-        <ul>
+        <ul style={{ width: "100%" }}>
           {books.map((book) => {
             return (
               <BookListItem
@@ -30,6 +30,6 @@ export function BookList() {
           })}
         </ul>
       )}
-    </>
+    </div>
   );
 }

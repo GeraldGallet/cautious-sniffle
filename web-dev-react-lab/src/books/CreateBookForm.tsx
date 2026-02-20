@@ -1,3 +1,5 @@
+import { PlusOutlined } from "@ant-design/icons";
+import { Button, Input, Space } from "antd";
 import { useState } from "react";
 import type { CreateBookModel } from "./BookModel";
 
@@ -9,17 +11,22 @@ export function CreateBookForm({ onCreate }: CreateBookFormProps) {
   const [title, setTitle] = useState<string>("");
 
   const onValidate = () => {
-    onCreate({ title, yearPublished: 1960, authorId: "1" });
+    onCreate({ title });
     setTitle("");
   };
 
   return (
-    <>
-      (<input value={title} onChange={(e) => setTitle(e.target.value)} />
-      <button onClick={onValidate} disabled={!title?.length}>
+    <Space orientation="horizontal">
+      <Input value={title} onChange={(e) => setTitle(e.target.value)} />
+      <Button
+        color="primary"
+        icon={<PlusOutlined />}
+        variant="solid"
+        onClick={onValidate}
+        disabled={!title?.length}
+      >
         Create book
-      </button>
-      )
-    </>
+      </Button>
+    </Space>
   );
 }

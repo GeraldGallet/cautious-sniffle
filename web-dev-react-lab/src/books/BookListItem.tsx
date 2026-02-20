@@ -1,3 +1,10 @@
+import {
+  CheckOutlined,
+  CloseOutlined,
+  DeleteOutlined,
+  EditOutlined,
+} from "@ant-design/icons";
+import { Button, Col, Row } from "antd";
 import { useState } from "react";
 import type { BookModel, UpdateBookModel } from "./BookModel";
 
@@ -22,8 +29,8 @@ export function BookListItem({ book, onDelete, onUpdate }: BookListItemProps) {
   };
 
   return (
-    <li>
-      <div>
+    <Row justify="space-between" style={{ width: "100%", padding: ".25rem 0" }}>
+      <Col span={12}>
         {editMode ? (
           <input
             value={newTitle}
@@ -32,16 +39,40 @@ export function BookListItem({ book, onDelete, onUpdate }: BookListItemProps) {
         ) : (
           <b>{book.title}</b>
         )}
-        {editMode ? (
-          <>
-            <button onClick={onSave}>Save</button>
-            <button onClick={onCancel}>Cancel</button>
-          </>
-        ) : (
-          <button onClick={() => setEditMode(true)}>Edit</button>
-        )}
-        <button onClick={onDelete}>Delete</button>
-      </div>
-    </li>
+      </Col>
+      <Col span={6}>
+        <Row gutter={[4, 0]}>
+          {editMode ? (
+            <>
+              <Col>
+                <Button color="primary" variant="solid" onClick={onSave}>
+                  <CheckOutlined />
+                </Button>
+              </Col>
+              <Col>
+                <Button color="primary" variant="outlined" onClick={onCancel}>
+                  <CloseOutlined />
+                </Button>
+              </Col>
+            </>
+          ) : (
+            <Col>
+              <Button
+                color="primary"
+                variant="solid"
+                onClick={() => setEditMode(true)}
+              >
+                <EditOutlined />
+              </Button>
+            </Col>
+          )}
+          <Col>
+            <Button color="danger" variant="solid" onClick={onDelete}>
+              <DeleteOutlined />
+            </Button>
+          </Col>
+        </Row>
+      </Col>
+    </Row>
   );
 }

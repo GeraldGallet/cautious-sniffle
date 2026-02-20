@@ -1,4 +1,6 @@
+import { BookOutlined, HomeOutlined, InfoOutlined } from "@ant-design/icons";
 import { Link } from "@tanstack/react-router";
+import { Menu, Space, type MenuProps } from "antd";
 import { Route as aboutRoute } from "./routes/about";
 import { Route as booksRoute } from "./routes/books";
 import { Route as indexRoute } from "./routes/index";
@@ -8,8 +10,27 @@ interface LayoutProps {
 }
 
 export function Layout({ children }: LayoutProps) {
+  const items: Required<MenuProps>["items"] = [
+    {
+      label: <Link to={indexRoute.to}>Home</Link>,
+      key: "home",
+      icon: <HomeOutlined />,
+    },
+    {
+      label: <Link to={booksRoute.to}>Books</Link>,
+      key: "books",
+      icon: <BookOutlined />,
+    },
+    {
+      label: <Link to={aboutRoute.to}>About</Link>,
+      key: "about",
+      icon: <InfoOutlined />,
+    },
+  ];
+
   return (
-    <div
+    <Space
+      orientation="vertical"
       style={{
         width: "100%",
         height: "100vh",
@@ -24,11 +45,9 @@ export function Layout({ children }: LayoutProps) {
         }}
       >
         <h2 style={{ marginTop: "0" }}>Babel&apos;s Library</h2>
-        <Link to={indexRoute.to}>Home</Link>
-        <Link to={aboutRoute.to}>About</Link>
-        <Link to={booksRoute.to}>Books</Link>
+        <Menu mode="horizontal" items={items} />
       </div>
       <div style={{ width: "100%", overflowY: "scroll" }}>{children}</div>
-    </div>
+    </Space>
   );
 }
